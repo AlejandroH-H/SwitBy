@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc --build",
     "start": "node ./dist/app.js",
-    "dev": "nodemon ./src/app.ts"
+    "dev": "nodemon --exec ts-node --files ./src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
+    "express": "^5.1.0",
     "express-generator": "^4.16.1",
     "express-session": "^1.18.1",
     "google-auth-library": "^10.1.0",
@@ -30,8 +31,7 @@
     "passport-google-oauth20": "^2.0.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "uuid": "^11.1.0",
-    "express": "^5.1.0"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.4",
@@ -39,6 +39,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.8",
     "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.3",
     "@types/express-session": "^1.18.2",
     "@types/http-errors": "^2.0.5",
     "@types/morgan": "^1.9.9",
@@ -46,7 +47,6 @@
     "@types/passport": "^1.0.17",
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/sqlite3": "^5.1.0",
-    "@types/express": "^5.0.3",
     "dotenv": "^16.5.0",
     "morgan": "~1.9.1",
     "nodemon": "^3.1.10",
