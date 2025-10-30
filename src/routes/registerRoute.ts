@@ -5,7 +5,8 @@ const router = Router();
 const manejoRegistro = new RegisterController();
 
 router.get('/register', (req: Request, res: Response) => {
-  res.send("Registro");
+  // res.send("Registro");
+  res.render('auth/register');
 });
 
 router.post('/register', (req: Request, res: Response) => manejoRegistro.registerUser(req, res));
