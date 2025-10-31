@@ -31,7 +31,7 @@ function createTables() {
         const db = yield initializeDB();
         yield db.exec(`
     
-    -- 1. Roles
+-- 1. Roles
 CREATE TABLE IF NOT EXISTS roles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     kindRol INTEGER NOT NULL UNIQUE DEFAULT 0 --Será 0 para usuarios normales y 1 para administradores
