@@ -5,7 +5,8 @@ const router = Router();
 const manejoSession= new SessionController();
 
 router.get('/session', (req: Request, res: Response) => {
-  res.send("Inicio de Sesión");
+  //res.send("Inicio de Sesión");
+  res.render('auth/login');
 });
 
 router.post('/session', (req: Request, res: Response) => manejoSession.loginUser(req, res));
