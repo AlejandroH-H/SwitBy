@@ -33,10 +33,12 @@ app.use(
 
 import registerRouter from "./routes/registerRoute";
 import sessionRouter from "./routes/sessionRoute";
+import mainRouter from "./routes/mainRoute";
 
 // Rutas
 app.use(registerRouter);
 app.use(sessionRouter);
+app.use(mainRouter);
 
 
 // Rutas principales
