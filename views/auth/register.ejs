@@ -4,29 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SwitBy | Registro</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
 
-    <div>
-        <h1>Registro</h1>
-        <form action="/register" method="post">
-            <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" required><br>
-            <label for="email">Correo</label>
-            <input type="email" name="email" id="email" required><br>
-            <label for="password">Contraseña</label>
-            <input type="password" name="password" id="password" required><br>
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-light text-black shadow-lg" style="border-radius: 1rem;" id="full-card">
+                <div class="card-body p-5 text-center">
 
-            <button type="submit" id="enviar">Enviar</button>
-            <button type="reset" id="limpiar">Limpiar</button>
-        </form>
-    </div>
+                    <div class="mb-md-5 mt-md-4 pb-5">
 
-    <div>
-        <p>
-            ¿Ya tienes una cuenta? <a href="/session">Inicia sesión aquí</a>
-        </p>
-    </div>
+                    <div id="SwitBy-Presentation">
+                        <svg xmlns="http://www.w3.org/2000/svg" id="SwitBy-Paloma" version="1.0" width="50px" height="57px" viewBox="0 0 476.000000 476.000000" preserveAspectRatio="xMinYMid meet">
+                            <g transform="translate(0.000000,476.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
+                                <path class="PalomaIcono" d="M2080 4259 c-87 -51 -278 -360 -384 -624 l-35 -88 19 -28 c11 -15 60 -64 108 -109 195 -183 488 -340 800 -428 l72 -20 0 131 0 132 -46 69 c-142 211 -232 473 -253 735 -12 147 -40 201 -124 236 -50 21 -115 19 -157 -6z"/>
+                                <path class="PalomaIcono" d="M920 4028 c-48 -33 -65 -61 -109 -178 -109 -291 -159 -624 -148 -985 9 -287 61 -505 179 -739 90 -180 180 -306 327 -459 108 -111 188 -179 312 -264 l87 -59 -527 -143 c-289 -79 -541 -149 -558 -157 -73 -30 -95 -130 -44 -200 91 -125 281 -272 476 -369 149 -74 268 -115 422 -145 128 -25 349 -38 379 -22 11 6 155 119 319 251 l299 241 347 0 c266 0 367 4 435 15 263 46 493 164 679 350 157 157 269 352 328 573 l31 117 4 718 3 717 113 173 c62 94 118 182 124 194 20 36 14 79 -14 113 l-26 31 -482 -3 -481 -3 -75 -27 c-148 -55 -276 -166 -345 -302 -64 -127 -67 -149 -72 -483 l-5 -302 -46 5 c-213 26 -512 115 -719 214 -222 106 -371 207 -527 359 -177 172 -309 376 -387 600 -49 142 -103 191 -212 191 -40 0 -63 -6 -87 -22z m2676 -754 c50 -34 67 -99 39 -154 -21 -41 -53 -60 -101 -60 -81 0 -140 82 -111 152 30 71 113 101 173 62z"/>
+                            </g>
+                        </svg>
+                        <h1 id="SwitBy-Title">SwitBy</h1>
+                    </div>
+
+                    <h2 class="fw-bold mb-2 text-uppercase">Registrate</h2>
+                    <p class="text-black-50 mb-5">Ingresa tus datos para crear una cuenta.</p>
+
+                    <form action="/register" method="post">
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label" for="name">Nombre</label>
+                            <input type="text" id="name" name="name" class="form-control form-control-lg" placeholder="nombre"/>
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label" for="email">Correo</label>
+                            <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="tucorreo@dominio.com"/>
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label" for="password">Contraseña</label>
+                            <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="******"/>
+                        </div>
+
+                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg px-5" id="btn-outline-lila" type="submit">Registrarse</button>
+                    </form>
+
+                    </div>
+
+                    <div>
+                        <p class="mb-0">¿Ya tienes una cuenta? <a href="/session" class="text-black-50 fw-bold">Inicia sesión aquí</a>
+                        </p>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/js/bootstrap.bundl.min.js"></script>
     
 </body>
 </html>

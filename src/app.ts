@@ -17,6 +17,10 @@ if (process.env.NODE_ENV !== "production") {
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
 
+app.use(express.static('views/public'));
+
+
+
 // Middlewares
 app.use(morgan("dev"));
 app.use(express.json());
@@ -37,7 +41,6 @@ import sessionRouter from "./routes/sessionRoute";
 // Rutas
 app.use(registerRouter);
 app.use(sessionRouter);
-
 
 // Rutas principales
 app.get("/", (req: Request, res: Response) => {
