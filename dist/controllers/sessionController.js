@@ -34,7 +34,10 @@ class SessionController {
                 name: user.name,
                 email: user.email
             };
-            return res.status(200).json({ message: 'Inicio de sesión exitoso :D', user: req.session.user });
+            /* return res.status(200).json({
+              message: 'Inicio de sesión exitoso :D', user: req.session.user
+            }); */
+            return res.render('layouts/main', { user: req.session.user });
         });
     }
 }

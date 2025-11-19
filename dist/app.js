@@ -18,6 +18,7 @@ if (process.env.NODE_ENV !== "production") {
 // Configuración para las vistas
 app.set("views", path_1.default.join(__dirname, "../views"));
 app.set("view engine", "ejs");
+app.use(express_1.default.static('views/public'));
 // Middlewares
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
@@ -31,9 +32,11 @@ app.use((0, express_session_1.default)({
 }));
 const registerRoute_1 = __importDefault(require("./routes/registerRoute"));
 const sessionRoute_1 = __importDefault(require("./routes/sessionRoute"));
+const mainRoute_1 = __importDefault(require("./routes/mainRoute"));
 // Rutas
 app.use(registerRoute_1.default);
 app.use(sessionRoute_1.default);
+app.use(mainRoute_1.default);
 // Rutas principales
 app.get("/", (req, res) => {
     res.send("Bienvenido");
