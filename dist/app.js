@@ -9,6 +9,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_session_1 = __importDefault(require("express-session"));
+const serve_favicon_1 = __importDefault(require("serve-favicon"));
 // Inicialización de la app
 const app = (0, express_1.default)();
 // Configuración de variables de entorno
@@ -18,13 +19,13 @@ if (process.env.NODE_ENV !== "production") {
 // Configuración para las vistas
 app.set("views", path_1.default.join(__dirname, "../views"));
 app.set("view engine", "ejs");
-app.use(express_1.default.static('views/public'));
+app.use((0, serve_favicon_1.default)(path_1.default.join(__dirname, '../views/public/imgs', 'favicon.ico')));
 // Middlewares
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
-app.use(express_1.default.static(path_1.default.join(__dirname, "../public")));
+app.use(express_1.default.static(path_1.default.join(__dirname, "../views/public")));
 app.use((0, express_session_1.default)({
     secret: "secret",
     resave: false,
