@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import session from "express-session";
+import favicon from "serve-favicon";
 
 // Inicialización de la app
 const app = express();
@@ -17,16 +18,14 @@ if (process.env.NODE_ENV !== "production") {
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
 
-app.use(express.static('views/public'));
-
-
+app.use(favicon(path.join(__dirname, '../views/public/imgs', 'favicon.ico')));
 
 // Middlewares
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "../views/public")));
 app.use(
   session({
     secret: "secret",
