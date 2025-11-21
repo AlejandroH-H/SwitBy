@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es"> <!-- Recuerda que por cada vista, se coordina el lenguaje en español -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,47 +10,9 @@
 </head>
 <body>
 
-    <!-- <h1>Hello, <%= user.name %></h1> -->
-    <header class="p-3 border-bottom">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                
-                <div class="d-flex align-items-center SwitBy-Logo me-3 me-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="SwitBy-Paloma" version="1.0" width="50px" height="57px" viewBox="0 0 476.000000 476.000000" preserveAspectRatio="xMinYMid meet">
-                        <g transform="translate(0.000000,476.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
-                            <path class="PalomaIcono" d="M2080 4259 c-87 -51 -278 -360 -384 -624 l-35 -88 19 -28 c11 -15 60 -64 108 -109 195 -183 488 -340 800 -428 l72 -20 0 131 0 132 -46 69 c-142 211 -232 473 -253 735 -12 147 -40 201 -124 236 -50 21 -115 19 -157 -6z"/>
-                            <path class="PalomaIcono" d="M920 4028 c-48 -33 -65 -61 -109 -178 -109 -291 -159 -624 -148 -985 9 -287 61 -505 179 -739 90 -180 180 -306 327 -459 108 -111 188 -179 312 -264 l87 -59 -527 -143 c-289 -79 -541 -149 -558 -157 -73 -30 -95 -130 -44 -200 91 -125 281 -272 476 -369 149 -74 268 -115 422 -145 128 -25 349 -38 379 -22 11 6 155 119 319 251 l299 241 347 0 c266 0 367 4 435 15 263 46 493 164 679 350 157 157 269 352 328 573 l31 117 4 718 3 717 113 173 c62 94 118 182 124 194 20 36 14 79 -14 113 l-26 31 -482 -3 -481 -3 -75 -27 c-148 -55 -276 -166 -345 -302 -64 -127 -67 -149 -72 -483 l-5 -302 -46 5 c-213 26 -512 115 -719 214 -222 106 -371 207 -527 359 -177 172 -309 376 -387 600 -49 142 -103 191 -212 191 -40 0 -63 -6 -87 -22z m2676 -754 c50 -34 67 -99 39 -154 -21 -41 -53 -60 -101 -60 -81 0 -140 82 -111 152 30 71 113 101 173 62z"/>
-                        </g>
-                    </svg>
-                    <h1 id="SwitBy-Title">SwitBy</h1>
-                </div>
+    <%- include('../partials/header') %> <!-- Incluimos el header -->
 
-                <div id="header-right" class="d-flex align-items-center"> 
-                    <div id="header-links" class="me-2"> 
-                        <a href="#" class="nav-link px-2 link-body-emphasis">
-                            <img src="imgs/campana.png" id="perfil-notificaciones" alt="Campana sobre campana" width="30px">
-                        </a>
-                    </div>
-
-                    <div class="dropdown">
-                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle"> 
-                        </a> 
-                        <ul class="dropdown-menu text-small">
-                            <li class="dropdown-item"><%- user.name%></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/session">Sign out</a></li>
-                        </ul> 
-                    </div>  
-                </div>
-                
-            </div> 
-        </div> 
-    </header>
-
-    <section id="perfil-publicaciones" class="d-flex justify-content-between align-items-center p-2 my-0 border-bottom border-dark border-3 bg-light">
+    <section id="perfil-publicaciones" class="d-flex justify-content-between align-items-center p-2 my-0 border-dark border-3 bg-light">
         
         <a href="#" class="btn btn-outline-dark text-start fw-bold">
             Buscar
@@ -73,10 +35,10 @@
         <section id="perfil-opc" class="col-12 col-md-3 p-0">
             
             <div id="perfil-opc-in" class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action fw-bold w-100 rounded-8 text-black">Amigos</a>
-                <a href="#" class="list-group-item list-group-item-action fw-bold w-100 rounded-8 text-black">Categorias</a>
-                <a href="#" class="list-group-item list-group-item-action fw-bold w-100 rounded-8 text-black">Temas</a>
-                <a href="#" class="list-group-item list-group-item-action fw-bold w-100 rounded-8 text-black">Mensajes</a>
+                <a href="#" class="perfil-item list-group-item fw-bold w-100 text-black">Amigos</a>
+                <a href="#" class="perfil-item list-group-item fw-bold w-100 text-black">Categorias</a>
+                <a href="#" class="perfil-item list-group-item fw-bold w-100 text-black">Temas</a>
+                <a href="#" class="perfil-item list-group-item fw-bold w-100 text-black">Mensajes</a>
             </div>
             
         </section>
@@ -120,7 +82,7 @@
                     </p>
                 </div>
             </div>
-            
+        <!-- En el futuro, cuando tengamos datos circulando desde los posteos, haremos un solo div de post, con un ciclo for, ya que tendrá un backend ejecutando consultas a la base de datos-->
         </section>
     </div>
 

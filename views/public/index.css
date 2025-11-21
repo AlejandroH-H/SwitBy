@@ -26,6 +26,54 @@ body {
     font-weight: bolder;
 }
 
+#tuperfil #perfil-opc{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* antes: start */
+    max-height: 25.8em;
+    min-height: 230px; /* ocupa casi toda la ventana; ajusta 120px según alto del header */
+    height: auto;
+    padding: 1rem 0;
+    border-radius: 15px;
+    overflow-y: auto; /* permite hacer scroll si el contenido sobrepasa */
+}
+
+#tuperfil #perfil-opc #perfil-opc-in{
+    width: 95%;
+    margin: 12px auto;
+    display: flex;
+    flex-direction: column; /* columna vertical */
+    gap: 12px;              /* ahora sí funciona */
+    padding: 8px;
+}
+
+.perfil-item.list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+    border: 2px solid rgba(22, 5, 51, 0.15);
+    border-radius: 12px;
+    background: linear-gradient(180deg, #ffffff, #f7f3fb);
+    color: #222;
+    font-weight: 600;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Hover / focus accesible */
+.perfil-item:hover,
+.perfil-item:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(157,122,212,0.12);
+    background: linear-gradient(180deg,#fbf8ff,#f0e9ff);
+    color: #4b2b8a;
+    outline: none;
+}
+
 #full-card {
     margin-bottom: 80px;
 }
@@ -43,4 +91,16 @@ body {
     color: #9D7AD4;
     border-color: #9D7AD4;
     background-color: #ffffff00;
+}
+
+/* Ajuste responsive: en pantallas pequeñas reducir padding */
+@media (max-width: 576px) {
+    #tuperfil #perfil-opc #perfil-opc-in{
+        width: 100%;
+        gap: 8px;
+    }
+    .perfil-item {
+        padding: 10px 12px;
+        border-radius: 10px;
+    }
 }
