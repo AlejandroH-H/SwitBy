@@ -9,46 +9,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userThings = void 0;
-const db_1 = require("../db");
+exports.mainController = exports.userThings = void 0;
+const crudUser_1 = require("./userController/crudUser");
+const segurityUser_1 = require("./userController/segurityUser");
 class userThings {
-    mostrarPerfil(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const id = req.params.id;
-            try {
-                const db = yield (0, db_1.initializeDB)();
-                const user = yield db.get("SELECT * FROM usuarios as u INNER JOIN perfiles p ON u.id = p.user_id WHERE id = ?", [id]);
-                if (!user) {
-                    return res.status(404).send("Usuario no encontrado");
-                }
-                res.render("users/profile", { user });
-            }
-            catch (error) {
-                console.error(error);
-                res.status(500).send("Error en la base de datos");
-            }
-        });
+    constructor() {
+        this.userCrud = new crudUser_1.userCrud();
+        this.userSegurity = new segurityUser_1.userSegurity();
     }
+    /* CONTROLADORES DEL CRUD */
     editarPerfil(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { username, first_name, last_name, bio } = req.body;
-            const id = req.params.id;
-            const db = yield (0, db_1.initializeDB)();
-            try {
-                const stmt = yield db.run(`UPDATE perfiles SET username = ?, first_name = ?, last_name = ?, bio = ? WHERE user_id = ?`, [username, first_name, last_name, bio, id]);
-                if (stmt) {
-                    //res.send("Se actualizarion los datos bien");
-                    res.redirect(`/profile/${id}`);
-                }
-                else {
-                    res.status(404).send("No se encontró el usuario para actualizar");
-                }
-            }
-            catch (error) {
-                console.log("Ocurrio un error: ", error);
-            }
+            return yield this.userCrud.editarPerfil(req, res);
+        });
+    }
+    eliminarPerfil(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userCrud.eliminarPerfil(req, res);
+        });
+    }
+    /* CONTROLADORES DE LA SEGURIDAD */
+    passwordSegurity(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userSegurity.passwordSegurity(req, res);
+        });
+    }
+    emailSegurity(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userSegurity.emailSegurity(req, res);
         });
     }
 }
 exports.userThings = userThings;
-;
+exports.mainController = new userThings();

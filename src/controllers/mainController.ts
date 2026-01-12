@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
 import { initializeDB } from '../db';
-import { mostrarPost } from "./postsMainController";
+import { postCrud } from "./postsMainController";
+
+const postsController = new postCrud();
 
 export class UserController {
 
   async getMain (req: Request, res: Response) {
     try {
-      const verPost = await mostrarPost() ?? [];
+      const verPost = await postsController.mostrarPost() ?? [];
       res.status(200).render("layouts/main", { 
         user: req.session.user,
         receivePosts: verPost
