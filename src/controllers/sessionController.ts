@@ -18,7 +18,7 @@ export class SessionController{
       const user = await db.get(
         `SELECT 
             u.id, u.email, u.password, u.is_active,
-            p.username, p.avatar_url,
+            p.username, p.first_name, p.last_name, p.bio, p.avatar_url,
             r.rol_name
           FROM usuarios u
           INNER JOIN perfiles p ON u.id = p.user_id
@@ -45,6 +45,9 @@ export class SessionController{
       req.session.user = {
         id: user.id,
         username: user.username,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        bio: user.bio,
         email: user.email,
         avatar: user.avatar_url,
         rol: user.rol_name
