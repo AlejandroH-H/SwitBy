@@ -39,6 +39,7 @@ import registerRouter from "./routes/registerRoute";
 import sessionRouter from "./routes/sessionRoute";
 import mainRouter from "./routes/mainRoute";
 import userRouter from "./routes/userRoutes";
+import postRouter from "./routes/postRoutes";
 
 // Rutas
 app.use(registerRouter);

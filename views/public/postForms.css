@@ -74,7 +74,7 @@
 }
 
 /* Ajuste responsive: en pantallas pequeñas reducir padding */
-@media (max-width: 576px) {
+@media (max-width: 400px) {
     #tuperfil #perfil-opc #perfil-opc-in{
         width: 100%;
         gap: 8px;
