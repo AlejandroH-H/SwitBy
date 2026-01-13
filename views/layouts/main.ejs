@@ -6,7 +6,6 @@
     <title>SwitBy | Home</title>
     <!-- Estilos: Intenta unificar o usar rutas absolutas -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    
     <link rel="stylesheet" href="/main.css">
 
     <!-- Iconos de Bootstrap (Opcional, para el menú de 3 puntos) -->
@@ -126,8 +125,10 @@
                       <a
                         class="dropdown-item"
                         href="/post/edit/<%= post.post_id %>"
+                        data-bs-toggle="modal" data-bs-target="#mimodal<%= post.post_id %>"
                         > Editar
                       </a>
+                      
                     </li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>
@@ -144,6 +145,7 @@
                     </li>
                   </ul>
                 </div>
+                <%- include('../post/edit.ejs', { post: post }) %>
                 <% } %>
               </div>
 

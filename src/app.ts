@@ -46,6 +46,7 @@ app.use(registerRouter);
 app.use(sessionRouter);
 app.use(mainRouter);
 app.use(userRouter);
+app.use(postRouter);
 
 // Rutas principales
 app.get("/", (req: Request, res: Response) => {
