@@ -164,12 +164,70 @@
 
             <!-- Pie del Post (Likes y Comentarios - Estructura futura) -->
             <div class="card-footer bg-white border-0 d-flex gap-3">
-              <button class="btn btn-sm btn-outline-danger border-0">
-                <i class="bi bi-heart"></i> Like
+              <button 
+                  class="btn btn-sm border-0 d-flex align-items-center gap-2 btn-like"
+                  onclick="toggleLike(this)"
+                  data-post-id="<%= post.post_id %>"
+                  data-liked="<%= post.user_liked ? 'true' : 'false' %>"
+                  title="Me gusta"
+              >
+                  <!-- 1. El Icono: Cambia entre relleno (fill) y borde (outline) según el estado -->
+                  <i class="bi <%= post.user_liked ? 'bi-heart-fill text-danger' : 'bi-heart' %> icon-heart fs-5"></i>
+
+                  <!-- 2. El Contador: Muestra el número total -->
+                  <span class="fw-bold like-count <%= post.user_liked ? 'text-danger' : 'text-secondary' %>">
+                      <%= post.total_likes || 0 %>
+                  </span>
               </button>
-              <button class="btn btn-sm btn-outline-primary border-0">
+              <button 
+                class="btn btn-sm btn-outline-primary border-0"
+                type="button"
+                data-bs-toggle="collapse" 
+                data-bs-target="#collapse-comments-<%= post.post_id %>" 
+                data-post-id="<%= post.post_id %>"
+                aria-expanded="false"
+              >
                 <i class="bi bi-chat"></i> Comentar
               </button>
+            </div>
+
+            <div class="collapse bg-light" id="collapse-comments-<%= post.post_id %>">
+                <div class="p-3">
+
+                    <!-- 1. CONTENEDOR DE LISTA (Aquí JS inyectará el HTML) -->
+                    <div id="comments-list-<%= post.post_id %>" class="d-flex flex-column gap-2 mb-3">
+                        <!-- Spinner de carga inicial -->
+                        <div class="text-center text-muted small py-2">
+                            <div class="spinner-border spinner-border-sm" role="status"></div> Cargando...
+                        </div>
+                    </div>
+                  
+                    <!-- 2. FORMULARIO DE ENVÍO -->
+                    <% if (user) { %>
+                        <form class="comment-form d-flex gap-2 align-items-center" data-post-id="<%= post.post_id %>">
+                            <!-- Avatar del usuario logueado (Visual) -->
+                            <img src="<%= user.avatar || '../../../imgs/Logo.png' %>" class="rounded-circle" width="30" height="30">
+
+                            <input 
+                                type="text" 
+                                name="content" 
+                                class="form-control form-control-sm rounded-pill" 
+                                placeholder="Escribe un comentario..." 
+                                autocomplete="off"
+                                required
+                            >
+
+                            <button type="submit" class="btn btn-sm btn-primary rounded-circle">
+                                <i class="bi bi-send-fill"></i>
+                            </button>
+                        </form>
+                    <% } else { %>
+                        <div class="text-center small">
+                            <a href="/session">Inicia sesión</a> para comentar.
+                        </div>
+                    <% } %>
+                      
+                </div>
             </div>
           </div>
 
@@ -197,6 +255,8 @@
     <%- include('../partials/footer') %>
 
     <!-- Scripts unificados -->
+    <script src="/js/likes.js"></script>
+    <script src="/js/comments.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

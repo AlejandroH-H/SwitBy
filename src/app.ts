@@ -40,6 +40,7 @@ import sessionRouter from "./routes/sessionRoute";
 import mainRouter from "./routes/mainRoute";
 import userRouter from "./routes/userRoutes";
 import postRouter from "./routes/postRoutes";
+import commentPost from "./routes/postsFunctions/commentsPost";
 
 // Rutas
 app.use(registerRouter);
@@ -47,6 +48,7 @@ app.use(sessionRouter);
 app.use(mainRouter);
 app.use(userRouter);
 app.use(postRouter);
+app.use('/api', commentPost);
 
 // Rutas principales
 app.get("/", (req: Request, res: Response) => {
