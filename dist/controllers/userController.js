@@ -18,6 +18,11 @@ class userThings {
         this.userSegurity = new segurityUser_1.userSegurity();
     }
     /* CONTROLADORES DEL CRUD */
+    obtenerDatos(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userCrud.obtenerDatos(id);
+        });
+    }
     editarPerfil(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userCrud.editarPerfil(req, res);

@@ -42,6 +42,11 @@ import userRouter from "./routes/userRoutes";
 import postRouter from "./routes/postRoutes";
 import commentPost from "./routes/postsFunctions/commentsPost";
 
+app.use((req, res, next) => {
+    res.locals.currentUser = req.session.user || null;
+    next();
+});
+
 // Rutas
 app.use(registerRouter);
 app.use(sessionRouter);
