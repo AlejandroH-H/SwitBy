@@ -4,7 +4,7 @@ import { userThings } from "../../controllers/userController";
 const crudUserRouter = Router();
 const userController = new userThings();
 
-crudUserRouter.get('/:id', (req: Request, res: Response) => { 
+crudUserRouter.get('/myprofile/:id', (req: Request, res: Response) => { 
     const id = req.params.id;
     res.render("users/profile", { user: req.session.user });
 });
@@ -24,6 +24,27 @@ crudUserRouter.get('/delete/:id', (req: Request, res: Response) => {
 
 crudUserRouter.post('/delete/:id', (req: Request, res: Response) => {
     userController.eliminarPerfil(req, res);
+});
+
+crudUserRouter.get('/:id', async (req, res) => { 
+    try {
+        const id = req.params.id;
+        const targetUser = await userController.obtenerDatos(id);
+
+        console.log("ID del Perfil visitado:", id);
+        console.log("ID del Usuario en sesión:", req.session.user?.id);
+
+        if (!targetUser) {
+            return res.status(404).send("Usuario no encontrado");
+        }
+
+        res.render("users/profile", { 
+            user: targetUser, 
+            currentUser: req.session.user || null 
+        });
+    } catch (error) {
+        res.status(500).send("Error en el servidor");
+    }
 });
 
 export default crudUserRouter;

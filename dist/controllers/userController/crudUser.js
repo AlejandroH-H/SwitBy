@@ -16,6 +16,29 @@ exports.userCrud = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const db_1 = require("../../db");
 class userCrud {
+    obtenerDatos(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const db = yield (0, db_1.initializeDB)();
+            try {
+                const query = `
+                SELECT 
+                u.id, p.username, 
+                u.email, p.first_name,
+                 p.last_name, p.bio, 
+                 p.avatar_url as avatar
+                    FROM usuarios as u 
+                    INNER JOIN perfiles p ON u.id = p.user_id
+                WHERE u.id = ?
+            `;
+                const rows = yield db.get(query, [id]);
+                return rows || null;
+            }
+            catch (error) {
+                console.error("Error al obtener datos del perfil:", error);
+                throw error;
+            }
+        });
+    }
     // este metodo es para cambiar datos basicos del perfil
     editarPerfil(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

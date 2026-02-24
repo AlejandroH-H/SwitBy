@@ -35,7 +35,7 @@
 
         <!-- Enlace dinámico al perfil del usuario logueado -->
         <a
-          href="/profile/<%= user ? user.id : '' %>"
+          href="/profile/myprofile/<%= user ? user.id : '' %>"
           class="btn btn-outline-dark fw-bold d-flex align-items-center gap-2"
         > <!-- <%= user ? user.id : '' %> -->
           <!-- Mini avatar del usuario en sesión -->
@@ -89,18 +89,22 @@
               >
                 <div class="d-flex align-items-center gap-3">
                   <!-- Avatar del Autor del Post (Viene del JOIN con perfiles) -->
-                  <img
-                    src="<%= post.author_avatar ? post.author_avatar : 'imgs/Logo.png' %>"
-                    alt="Avatar"
-                    class="rounded-circle border"
-                    width="50"
-                    height="50"
-                    style="object-fit: cover"
-                  />
+                  <a href="/profile/<%= post.user_id %>" class="text-decoration-none">
+                    <img
+                      src="<%= post.author_avatar ? post.author_avatar : 'imgs/Logo.png' %>"
+                      alt="Avatar"
+                      class="rounded-circle border"
+                      width="50"
+                      height="50"
+                      style="object-fit: cover"
+                    />
+                  </a>
 
                   <div>
                     <h5 class="card-title mb-0 fw-bold text-dark">
-                      <%= post.author_name %>
+                      <a href="/profile/<%= post.user_id %>" class="text-decoration-none text-dark">
+                        <%= post.author_name %>
+                      </a>
                       <!-- Usamos el nuevo alias author_name -->
                     </h5>
                     <small class="text-muted" style="font-size: 0.8rem">
@@ -118,17 +122,18 @@
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="bi bi-three-dots-vertical fs-5"></i>
+                    ...
+                    <!-- <i class="bi bi-three-dots-vertical fs-5"></i> -->
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end shadow">
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="/post/edit/<%= post.post_id %>"
-                        data-bs-toggle="modal" data-bs-target="#mimodal<%= post.post_id %>"
-                        > Editar
+                      <a class="dropdown-item" 
+                        href="#" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#mimodal<%= post.post_id %>">
+                        <i class="bi bi-pencil-square"></i> 
+                        Editar
                       </a>
-                      
                     </li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>

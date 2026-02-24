@@ -3,6 +3,29 @@ import bcrypt from 'bcrypt';
 import { initializeDB } from "../../db";
 
 export class userCrud {
+
+    async obtenerDatos(id: string) {
+        const db = await initializeDB();
+
+        try {
+            const query = `
+                SELECT 
+                u.id, p.username, 
+                u.email, p.first_name,
+                 p.last_name, p.bio, 
+                 p.avatar_url as avatar
+                    FROM usuarios as u 
+                    INNER JOIN perfiles p ON u.id = p.user_id
+                WHERE u.id = ?
+            `;
+            const rows: any = await db.get(query, [id]);
+            return rows || null;
+
+        } catch (error) {
+            console.error("Error al obtener datos del perfil:", error);
+            throw error;
+        }
+    }
     
     // este metodo es para cambiar datos basicos del perfil
     async editarPerfil(req: Request, res: Response) {

@@ -12,6 +12,10 @@ export class userThings {
     }
 
     /* CONTROLADORES DEL CRUD */
+    async obtenerDatos(id: string) {
+        return await this.userCrud.obtenerDatos(id);
+    }
+
     async editarPerfil(req: Request, res: Response) {
         return await this.userCrud.editarPerfil(req, res);
     }

@@ -18,6 +18,7 @@
             <!-- SIDEBAR: Menú de Opciones Realistas -->
             <div class="col-md-4 mb-4">
                 <div class="list-group shadow-sm">
+                    <% if (locals.currentUser && String(locals.currentUser.id) === String(user.id)) { %>
                     <!-- Sección 1: Datos Personales (Tabla Perfiles) -->
                     <div class="list-group-item disabled fw-bold text-uppercase small text-muted bg-light">
                         Mi Cuenta
@@ -49,6 +50,14 @@
                     <a href="/profile/delete/<%= user.id %>" class="list-group-item list-group-item-action text-danger" onclick="return confirm('¿Estás seguro? Esta acción no se puede deshacer.')">
                         <i class="bi bi-trash me-2"></i> Eliminar Cuenta
                     </a>
+                    <% } else { %>
+                        <div class="list-group-item disabled fw-bold text-uppercase small text-muted bg-light">
+                            Información
+                        </div>
+                        <div class="list-group-item">
+                            <i class="bi bi-info-circle me-2"></i> Viendo perfil público
+                        </div>
+                    <% } %>
                 </div>
             </div>
 

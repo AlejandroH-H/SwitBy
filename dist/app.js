@@ -36,11 +36,19 @@ const registerRoute_1 = __importDefault(require("./routes/registerRoute"));
 const sessionRoute_1 = __importDefault(require("./routes/sessionRoute"));
 const mainRoute_1 = __importDefault(require("./routes/mainRoute"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const postRoutes_1 = __importDefault(require("./routes/postRoutes"));
+const commentsPost_1 = __importDefault(require("./routes/postsFunctions/commentsPost"));
+app.use((req, res, next) => {
+    res.locals.currentUser = req.session.user || null;
+    next();
+});
 // Rutas
 app.use(registerRoute_1.default);
 app.use(sessionRoute_1.default);
 app.use(mainRoute_1.default);
 app.use(userRoutes_1.default);
+app.use(postRoutes_1.default);
+app.use('/api', commentsPost_1.default);
 // Rutas principales
 app.get("/", (req, res) => {
     //res.send("Bienvenido");

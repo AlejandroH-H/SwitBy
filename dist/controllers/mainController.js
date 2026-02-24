@@ -12,12 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const db_1 = require("../db");
 const postsMainController_1 = require("./postsMainController");
+const postsController = new postsMainController_1.postCrud();
 class UserController {
     getMain(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             try {
-                const verPost = (_a = yield (0, postsMainController_1.mostrarPost)()) !== null && _a !== void 0 ? _a : [];
+                const verPost = (_a = yield postsController.mostrarPost()) !== null && _a !== void 0 ? _a : [];
                 res.status(200).render("layouts/main", {
                     user: req.session.user,
                     receivePosts: verPost
