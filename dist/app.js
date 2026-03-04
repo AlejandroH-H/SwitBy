@@ -38,6 +38,7 @@ const mainRoute_1 = __importDefault(require("./routes/mainRoute"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const postRoutes_1 = __importDefault(require("./routes/postRoutes"));
 const commentsPost_1 = __importDefault(require("./routes/postsFunctions/commentsPost"));
+const searchRoute_1 = __importDefault(require("./routes/searchRoute"));
 app.use((req, res, next) => {
     res.locals.currentUser = req.session.user || null;
     next();
@@ -49,6 +50,7 @@ app.use(mainRoute_1.default);
 app.use(userRoutes_1.default);
 app.use(postRoutes_1.default);
 app.use('/api', commentsPost_1.default);
+app.use(searchRoute_1.default);
 // Rutas principales
 app.get("/", (req, res) => {
     //res.send("Bienvenido");

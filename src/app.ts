@@ -41,6 +41,7 @@ import mainRouter from "./routes/mainRoute";
 import userRouter from "./routes/userRoutes";
 import postRouter from "./routes/postRoutes";
 import commentPost from "./routes/postsFunctions/commentsPost";
+import searchRouter from "./routes/searchRoute";
 
 app.use((req, res, next) => {
     res.locals.currentUser = req.session.user || null;
@@ -54,6 +55,7 @@ app.use(mainRouter);
 app.use(userRouter);
 app.use(postRouter);
 app.use('/api', commentPost);
+app.use(searchRouter);
 
 // Rutas principales
 app.get("/", (req: Request, res: Response) => {
