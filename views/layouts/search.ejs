@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SwitBy | Búsqueda</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+  </head>
+  <body>
+    <!-- reutilizamos el encabezado global para que haya navegación y usuario -->
+    <%- include('../partials/header') %>
+
+    <div class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <% if (error) { %>
+            <div class="alert alert-danger"><%= error %></div>
+          <% } %>
+          <input
+            type="search"
+            name="searchBar"
+            id="searchInput"
+            class="form-control"
+            placeholder="Buscar..."
+            value="<%= query || '' %>"
+          />
+
+          <div
+            id="searchResults"
+            class="mt-2 border rounded bg-white"
+            <%- query && query.trim() ? 'style="display: block;"' : 'style="display: none;"' %>
+          >
+            <% if (searchResults) { %>
+              <% const hasUsers = searchResults.users && searchResults.users.length > 0; %>
+              <% const hasPosts = searchResults.posts && searchResults.posts.length > 0; %>
+
+              <% if (hasUsers) { %>
+                <div class="px-3 py-2 bg-light fw-bold text-muted small border-bottom">Cuentas</div>
+                <% searchResults.users.forEach(user => { %>
+                  <a href="/profile/<%= user.user_id %>" class="text-decoration-none text-dark">
+                    <div class="d-flex align-items-center p-2 border-bottom hover-bg-light">
+                      <img src="<%= user.avatar_url || 'imgs/Logo.png' %>" 
+                           class="rounded-circle me-2" width="30" height="30" style="object-fit: cover;">
+                      <span class="fw-bold">@<%= user.username %></span>
+                    </div>
+                  </a>
+                <% }) %>
+              <% } %>
+
+              <% if (hasPosts) { %>
+                <div class="px-3 py-2 bg-light fw-bold text-muted small border-bottom">Publicaciones</div>
+                <% searchResults.posts.forEach(post => { %>
+                  <a href="/post/<%= post.id %>" class="text-decoration-none text-dark">
+                    <div class="d-flex align-items-center p-2 border-bottom hover-bg-light">
+                      <div class="bg-secondary bg-opacity-10 rounded d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px;">
+                        <i class="bi bi-hash text-secondary"></i>
+                      </div>
+                      <span class="text-truncate"><%= post.title %></span>
+                    </div>
+                  </a>
+                <% }) %>
+              <% } %>
+
+              <% if (!hasUsers && !hasPosts) { %>
+                <div class="p-3 text-muted text-center small">No se encontraron resultados.</div>
+              <% } %>
+            <% } else { %>
+              <div class="p-3 text-muted text-center small">Escribe algo para comenzar la búsqueda.</div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/search.js"></script>
+  </body>
+</html>
