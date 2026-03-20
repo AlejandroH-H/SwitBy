@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+      <meta charset="UTF-8">
+      <title>Categorías | SwitBy</title>
+      <link rel="stylesheet" href="/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  </head>
+  <body class="bg-light">
+      <%- include('../../partials/header') %>
+      <div class="container-fluid">
+          <div class="row min-vh-100">
+              <section
+                id="perfil-opc"
+                class="col-md-3 d-none d-md-block border-end p-0 bg-white"
+              >
+                <div class="list-group list-group-flush pt-3">
+                  <a href="/friends" class="list-group-item list-group-item-action fw-bold">
+                    <i class="bi bi-people"></i> Amigos</a
+                  >
+                  <a href="/categories" class="list-group-item list-group-item-action fw-bold">
+                    <i class="bi bi-tags"></i> Categorías</a
+                  >
+                  <a href="/topics" class="list-group-item list-group-item-action fw-bold">
+                    <i class="bi bi-tags"></i> Temas</a
+                  >
+                  <a href="/messages" class="list-group-item list-group-item-action fw-bold">
+                    <i class="bi bi-chat-left-text"></i> Mensajes</a
+                  >
+                </div>
+              </section>
+
+              <!-- Contenido Principal: Categorías -->
+              <section class="col-12 col-md-9 p-4">
+                  <h4 class="fw-bold mb-4">Explorar por Categorías</h4>
+
+                  <div class="row g-4">
+                      <% if (categorias && categorias.length > 0) { %>
+                          <% categorias.forEach(cat => { %>
+                              <div class="col-md-4">
+                                  <div class="card border-0 shadow-sm h-100 p-3 bg-white" style="cursor:pointer; transition: transform 0.2s;">
+                                      <div class="d-flex align-items-center">
+                                          <div class="bg-primary bg-opacity-10 text-primary rounded p-3 me-3">
+                                              <i class="bi bi-folder2-open fs-4"></i>
+                                          </div>
+                                          <div>
+                                              <h5 class="fw-bold mb-0"><%= cat.categoryName %></h5>
+                                              <small class="text-muted"><%= cat.total_posts %> Publicaciones</small>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          <% }) %>
+                      <% } else { %>
+                          <p class="text-muted">Aún no hay categorías creadas.</p>
+                      <% } %>
+                  </div>
+              </section>
+          </div>
+      </div>
+      <%- include('../../partials/footer') %>
+  </body>
+</html>
