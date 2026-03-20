@@ -42,6 +42,7 @@ import userRouter from "./routes/userRoutes";
 import postRouter from "./routes/postRoutes";
 import commentPost from "./routes/postsFunctions/commentsPost";
 import searchRouter from "./routes/searchRoute";
+import sidebar from "./routes/sidebarRoute";
 
 app.use((req, res, next) => {
     res.locals.currentUser = req.session.user || null;
@@ -54,6 +55,7 @@ app.use(sessionRouter);
 app.use(mainRouter);
 app.use(userRouter);
 app.use(postRouter);
+app.use(sidebar);
 app.use('/api', commentPost);
 app.use(searchRouter);
 
