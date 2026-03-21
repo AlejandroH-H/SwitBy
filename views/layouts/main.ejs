@@ -1,130 +1,267 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SwitBy | Home</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-</head>
-<body>
+    <!-- Estilos: Intenta unificar o usar rutas absolutas -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/main.css">
 
-    <!-- <h1>Hello, <%= user.name %></h1> -->
-    <header class="p-3 border-bottom">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                
-                <div class="d-flex align-items-center SwitBy-Logo me-3 me-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="SwitBy-Paloma" version="1.0" width="50px" height="57px" viewBox="0 0 476.000000 476.000000" preserveAspectRatio="xMinYMid meet">
-                        <g transform="translate(0.000000,476.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
-                            <path class="PalomaIcono" d="M2080 4259 c-87 -51 -278 -360 -384 -624 l-35 -88 19 -28 c11 -15 60 -64 108 -109 195 -183 488 -340 800 -428 l72 -20 0 131 0 132 -46 69 c-142 211 -232 473 -253 735 -12 147 -40 201 -124 236 -50 21 -115 19 -157 -6z"/>
-                            <path class="PalomaIcono" d="M920 4028 c-48 -33 -65 -61 -109 -178 -109 -291 -159 -624 -148 -985 9 -287 61 -505 179 -739 90 -180 180 -306 327 -459 108 -111 188 -179 312 -264 l87 -59 -527 -143 c-289 -79 -541 -149 -558 -157 -73 -30 -95 -130 -44 -200 91 -125 281 -272 476 -369 149 -74 268 -115 422 -145 128 -25 349 -38 379 -22 11 6 155 119 319 251 l299 241 347 0 c266 0 367 4 435 15 263 46 493 164 679 350 157 157 269 352 328 573 l31 117 4 718 3 717 113 173 c62 94 118 182 124 194 20 36 14 79 -14 113 l-26 31 -482 -3 -481 -3 -75 -27 c-148 -55 -276 -166 -345 -302 -64 -127 -67 -149 -72 -483 l-5 -302 -46 5 c-213 26 -512 115 -719 214 -222 106 -371 207 -527 359 -177 172 -309 376 -387 600 -49 142 -103 191 -212 191 -40 0 -63 -6 -87 -22z m2676 -754 c50 -34 67 -99 39 -154 -21 -41 -53 -60 -101 -60 -81 0 -140 82 -111 152 30 71 113 101 173 62z"/>
-                        </g>
-                    </svg>
-                    <h1 id="SwitBy-Title">SwitBy</h1>
-                </div>
+    <!-- Iconos de Bootstrap (Opcional, para el menú de 3 puntos) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+  </head>
+  <body>
+    <%- include('../partials/header') %>
 
-                <div id="header-right" class="d-flex align-items-center"> 
-                    <div id="header-links" class="me-2"> 
-                        <a href="#" class="nav-link px-2 link-body-emphasis">
-                            <img src="imgs/campana.png" id="perfil-notificaciones" alt="Campana sobre campana" width="30px">
-                        </a>
-                    </div>
+    <!-- Barra de Herramientas -->
+    <section
+      id="perfil-publicaciones"
+      class="d-flex justify-content-between align-items-center p-3 border-bottom bg-white sticky-top"
+    >
+      <form class="d-flex" role="search">
+        <button class="btn btn-outline-dark fw-bold" type="button">
+          <a href="/search" class="text-decoration-none text-dark">Buscar</a>
+        </button>
+      </form>
 
-                    <div class="dropdown">
-                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle"> 
-                        </a> 
-                        <ul class="dropdown-menu text-small">
-                            <li class="dropdown-item"><%- user.name%></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/session">Sign out</a></li>
-                        </ul> 
-                    </div>  
-                </div>
-                
-            </div> 
-        </div> 
-    </header>
-
-    <section id="perfil-publicaciones" class="d-flex justify-content-between align-items-center p-2 my-0 border-bottom border-dark border-3 bg-light">
-        
-        <a href="#" class="btn btn-outline-dark text-start fw-bold">
-            Buscar
+      <div class="d-flex gap-2 align-items-center">
+        <a href="/createPost" class="btn btn-dark fw-bold">
+          <i class="bi bi-plus-lg"></i> Crear Post
         </a>
 
-        <div class="d-flex gap-2">
-            
-            <a href="#" class="btn btn-outline-dark fw-bold">
-                Crear
-            </a>
-            
-            <a href="#" class="btn btn-outline-dark fw-bold">
-                Perfil
-            </a>
-        </div>
+        <!-- Enlace dinámico al perfil del usuario logueado -->
+        <a
+          href="/profile/myprofile/<%= user ? user.id : '' %>"
+          class="btn btn-outline-dark fw-bold d-flex align-items-center gap-2"
+        > <!-- <%= user ? user.id : '' %> -->
+          <!-- Mini avatar del usuario en sesión -->
+          <img
+            src="<%= user && user.avatar ? user.avatar : 'imgs/Logo.png' %>"
+            alt="m"
+            width="24"
+            height="24"
+            class="rounded-circle border"
+          />
+          Perfil
+        </a>
+      </div>
     </section>
 
-    <div id="tuperfil" class="row g-0 d-flex min-vh-100">
-        
-        <section id="perfil-opc" class="col-12 col-md-3 p-0">
-            
-            <div id="perfil-opc-in" class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action fw-bold w-100 rounded-8 text-black">Amigos</a>
-                <a href="#" class="list-group-item list-group-item-action fw-bold w-100 rounded-8 text-black">Categorias</a>
-                <a href="#" class="list-group-item list-group-item-action fw-bold w-100 rounded-8 text-black">Temas</a>
-                <a href="#" class="list-group-item list-group-item-action fw-bold w-100 rounded-8 text-black">Mensajes</a>
-            </div>
-            
+    <div id="tuperfil" class="container-fluid">
+      <div class="row min-vh-100">
+        <!-- Sidebar Izquierdo -->
+        <section
+          id="perfil-opc"
+          class="col-md-3 d-none d-md-block border-end p-0 bg-white"
+        >
+          <div class="list-group list-group-flush pt-3">
+            <a href="/friends" class="list-group-item list-group-item-action fw-bold">
+              <i class="bi bi-people"></i> Amigos</a
+            >
+            <a href="/categories" class="list-group-item list-group-item-action fw-bold">
+              <i class="bi bi-tags"></i> Categorías</a
+            >
+            <a href="/topics" class="list-group-item list-group-item-action fw-bold">
+              <i class="bi bi-tags"></i> Temas</a
+            >
+            <a href="/messages" class="list-group-item list-group-item-action fw-bold">
+              <i class="bi bi-chat-left-text"></i> Mensajes</a
+            >
+          </div>
         </section>
 
-        <section id="perfil-feed" class="col-12 col-md-9 p-3 bg-light">
-            
-            <h4 class="mb-3">Tu Feed:</h4>
-            
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <h2 class="h5 card-title mb-0 fw-bold">User - Dayana Figueroa</h2>
-                        <p class="text-muted small mb-0">(hace 2 horas)</p>
-                    </div>
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores perspiciatis id quo mayores commodi! Sapiente repellendus quo, hic ipsa, atque blanditiis ratione labore mollitia consequuntur numquam, aspernatur velit vel aliquam.
-                    </p>
+        <!-- Feed Principal -->
+        <section id="perfil-feed" class="col-12 col-md-9 p-4 bg-light">
+          <h4 class="mb-4 text-muted">Tu Feed</h4>
+
+          <% if (receivePosts && receivePosts.length > 0) { %> 
+          <% receivePosts.forEach(function(post) { %>
+
+          <div class="card mb-4 shadow-sm border-0">
+            <div class="card-body">
+              <!-- Cabecera del Post: Avatar, Nombre y Menú -->
+              <div
+                class="d-flex justify-content-between align-items-start mb-3"
+              >
+                <div class="d-flex align-items-center gap-3">
+                  <!-- Avatar del Autor del Post (Viene del JOIN con perfiles) -->
+                  <a href="/profile/<%= post.user_id %>" class="text-decoration-none">
+                    <img
+                      src="<%= post.author_avatar ? post.author_avatar : 'imgs/Logo.png' %>"
+                      alt="Avatar"
+                      class="rounded-circle border"
+                      width="50"
+                      height="50"
+                      style="object-fit: cover"
+                    />
+                  </a>
+
+                  <div>
+                    <h5 class="card-title mb-0 fw-bold text-dark">
+                      <a href="/profile/<%= post.user_id %>" class="text-decoration-none text-dark">
+                        <%= post.author_name %>
+                      </a>
+                      <!-- Usamos el nuevo alias author_name -->
+                    </h5>
+                    <small class="text-muted" style="font-size: 0.8rem">
+                      <%= post.creationDate %>
+                    </small>
+                  </div>
                 </div>
+
+                <!-- Menú de Opciones (Solo si es dueño) -->
+                <% if (user && post.user_id == user.id) { %>
+                <div class="dropdown">
+                  <button
+                    class="btn btn-link text-dark text-decoration-none p-0"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    ...
+                    <!-- <i class="bi bi-three-dots-vertical fs-5"></i> -->
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li>
+                      <a class="dropdown-item" 
+                        href="#" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#mimodal<%= post.post_id %>">
+                        <i class="bi bi-pencil-square"></i> 
+                        Editar
+                      </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <!-- Formulario para eliminar (mejor que un simple link por seguridad) -->
+                      <form
+                        action="/post/delete/<%= post.post_id %>"
+                        method="POST"
+                        onsubmit="return confirm('¿Borrar post?');"
+                      >
+                        <button type="submit" class="dropdown-item text-danger">
+                          Eliminar
+                        </button>
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+                <%- include('../post/edit.ejs', { post: post }) %>
+                <% } %>
+              </div>
+
+              <!-- Contenido del Post -->
+              <h3 class="h5 fw-bold mb-2"><%= post.title %></h3>
+
+              <!-- Badge de Categoría (Viene del LEFT JOIN con categorias) -->
+              <% if (post.category_name) { %>
+              <span class="badge bg-secondary mb-2"
+                ><%= post.category_name %></span
+              >
+              <% } %>
+
+              <p class="card-text mt-2 text-secondary"><%= post.content %></p>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <h2 class="h5 card-title mb-0 fw-bold">User - Barbara Correa</h2>
-                        <p class="text-muted small mb-0">(hace 2 horas)</p>
-                    </div>
-                    <p class="card-text">
-                        En un grupo de amigos siempre hay un little hope, y si no lo reconoces, es porque el little hope eres tu.
-                    </p>
-                </div>
+            <!-- Pie del Post (Likes y Comentarios - Estructura futura) -->
+            <div class="card-footer bg-white border-0 d-flex gap-3">
+              <button 
+                  class="btn btn-sm border-0 d-flex align-items-center gap-2 btn-like"
+                  onclick="toggleLike(this)"
+                  data-post-id="<%= post.post_id %>"
+                  data-liked="<%= post.user_liked ? 'true' : 'false' %>"
+                  title="Me gusta"
+              >
+                  <!-- 1. El Icono: Cambia entre relleno (fill) y borde (outline) según el estado -->
+                  <i class="bi <%= post.user_liked ? 'bi-heart-fill text-danger' : 'bi-heart' %> icon-heart fs-5"></i>
+
+                  <!-- 2. El Contador: Muestra el número total -->
+                  <span class="fw-bold like-count <%= post.user_liked ? 'text-danger' : 'text-secondary' %>">
+                      <%= post.total_likes || 0 %>
+                  </span>
+              </button>
+              <button 
+                class="btn btn-sm btn-outline-primary border-0"
+                type="button"
+                data-bs-toggle="collapse" 
+                data-bs-target="#collapse-comments-<%= post.post_id %>" 
+                data-post-id="<%= post.post_id %>"
+                aria-expanded="false"
+              >
+                <i class="bi bi-chat"></i> Comentar
+              </button>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <h2 class="h5 card-title mb-0 fw-bold">User - Alejandro Hernandez</h2>
-                        <p class="text-muted small mb-0">(hace 2 horas)</p>
+            <div class="collapse bg-light" id="collapse-comments-<%= post.post_id %>">
+                <div class="p-3">
+
+                    <!-- 1. CONTENEDOR DE LISTA (Aquí JS inyectará el HTML) -->
+                    <div id="comments-list-<%= post.post_id %>" class="d-flex flex-column gap-2 mb-3">
+                        <!-- Spinner de carga inicial -->
+                        <div class="text-center text-muted small py-2">
+                            <div class="spinner-border spinner-border-sm" role="status"></div> Cargando...
+                        </div>
                     </div>
-                    <p class="card-text">
-                        Tema: Porque las personas odian de manera injustificada a Linux y porque Linux es el sistema operativo definitivo.
-                    </p>
+                  
+                    <!-- 2. FORMULARIO DE ENVÍO -->
+                    <% if (user) { %>
+                        <form class="comment-form d-flex gap-2 align-items-center" data-post-id="<%= post.post_id %>">
+                            <!-- Avatar del usuario logueado (Visual) -->
+                            <img src="<%= user.avatar || '../../../imgs/Logo.png' %>" class="rounded-circle" width="30" height="30">
+
+                            <input 
+                                type="text" 
+                                name="content" 
+                                class="form-control form-control-sm rounded-pill" 
+                                placeholder="Escribe un comentario..." 
+                                autocomplete="off"
+                                required
+                            >
+
+                            <button type="submit" class="btn btn-sm btn-primary rounded-circle">
+                                <i class="bi bi-send-fill"></i>
+                            </button>
+                        </form>
+                    <% } else { %>
+                        <div class="text-center small">
+                            <a href="/session">Inicia sesión</a> para comentar.
+                        </div>
+                    <% } %>
+                      
                 </div>
             </div>
-            
+          </div>
+
+          <% }); %> <% } else { %>
+
+          <!-- Estado Vacío -->
+          <div class="text-center py-5">
+            <div class="card-body">
+              <i class="bi bi-journal-x display-1 text-muted"></i>
+              <h5 class="card-title mt-3">¡No hay publicaciones aún!</h5>
+              <p class="card-text text-muted">
+                Sé el primero en compartir algo con la comunidad.
+              </p>
+              <a href="/createPost" class="btn btn-primary mt-2"
+                >Crear publicación</a
+              >
+            </div>
+          </div>
+
+          <% } %>
         </section>
+      </div>
     </div>
 
+    <%- include('../partials/footer') %>
+
+    <!-- Scripts unificados -->
+    <script src="/js/likes.js"></script>
+    <script src="/js/comments.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
-    
-</body>
+  </body>
 </html>

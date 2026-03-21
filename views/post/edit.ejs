@@ -1,0 +1,33 @@
+<div class="modal fade" id="mimodal<%= post.post_id %>" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <form action="/post/edit/<%= post.post_id %>" method="POST"> <div class="modal-header">
+                    <h2 class="modal-title fw-bold text-uppercase" style="color: #9D7AD4;">Editar Post #<%= post.post_id %></h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-outline">
+                        <label class="form-label" for="title">Título</label>
+                        <input type="text" name="title" id="title" value="<%= post.title %>" class="form-control form-control-lg" required>
+                    </div>
+
+                    <div class="form-outline">
+                        <label class="form-label" for="content">Contenido</label>
+                        <textarea name="content" id="content" class="form-control form-control-lg" rows="4" required><%= post.content %></textarea>
+                    </div>
+
+                    <div class="form-outline">
+                        <label class="form-label" for="category">Categoría (ID)</label>
+                        <input type="number" name="category" id="category" value="<%= post.category_id %>" class="form-control form-control-lg">
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

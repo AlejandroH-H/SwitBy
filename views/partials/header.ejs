@@ -1,0 +1,80 @@
+<header class="p-3 border-bottom bg-white">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
+      
+      <!-- LOGO Y TÍTULO (Izquierda) -->
+      <a href="/main" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none me-auto">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          id="SwitBy-Paloma"
+          version="1.0"
+          width="40px" 
+          height="45px" 
+          viewBox="0 0 476.000000 476.000000"
+          preserveAspectRatio="xMinYMid meet"
+          class="me-2 text-darkpurple"
+        >
+          <g
+            transform="translate(0.000000,476.000000) scale(0.100000,-0.100000)"
+            fill="currentColor"
+            stroke="none"
+          >
+            <path
+              class="PalomaIcono"
+              d="M2080 4259 c-87 -51 -278 -360 -384 -624 l-35 -88 19 -28 c11 -15 60 -64 108 -109 195 -183 488 -340 800 -428 l72 -20 0 131 0 132 -46 69 c-142 211 -232 473 -253 735 -12 147 -40 201 -124 236 -50 21 -115 19 -157 -6z"
+            />
+            <path
+              class="PalomaIcono"
+              d="M920 4028 c-48 -33 -65 -61 -109 -178 -109 -291 -159 -624 -148 -985 9 -287 61 -505 179 -739 90 -180 180 -306 327 -459 108 -111 188 -179 312 -264 l87 -59 -527 -143 c-289 -79 -541 -149 -558 -157 -73 -30 -95 -130 -44 -200 91 -125 281 -272 476 -369 149 -74 268 -115 422 -145 128 -25 349 -38 379 -22 11 6 155 119 319 251 l299 241 347 0 c266 0 367 4 435 15 263 46 493 164 679 350 157 157 269 352 328 573 l31 117 4 718 3 717 113 173 c62 94 118 182 124 194 20 36 14 79 -14 113 l-26 31 -482 -3 -481 -3 -75 -27 c-148 -55 -276 -166 -345 -302 -64 -127 -67 -149 -72 -483 l-5 -302 -46 5 c-213 26 -512 115 -719 214 -222 106 -371 207 -527 359 -177 172 -309 376 -387 600 -49 142 -103 191 -212 191 -40 0 -63 -6 -87 -22z m2676 -754 c50 -34 67 -99 39 -154 -21 -41 -53 -60 -101 -60 -81 0 -140 82 -111 152 30 71 113 101 173 62z"
+            />
+          </g>
+        </svg>
+        <h1 id="SwitBy-Title" class="fs-4 fw-bold m-0">SwitBy</h1>
+      </a>
+
+      <!-- PARTE DERECHA: Notificaciones + Usuario + Logout -->
+      <div id="header-right" class="d-flex align-items-center gap-3">
+        
+        <!-- Notificaciones -->
+        <a href="#" class="nav-link text-secondary position-relative">
+            <!-- Opción A: Tu imagen -->
+            <!-- <img src="imgs/campana.png" alt="Notificaciones" width="24px" /> -->
+            
+            <!-- Opción B: Icono Bootstrap (Recomendado) -->
+            <i class="bi bi-bell fs-4"></i>
+            
+            <!-- Badge de notificación (opcional) -->
+            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+        </a>
+
+        <!-- Separador vertical -->
+        <div class="vr mx-2"></div>
+
+        <!-- Información del Usuario (Solo visual) -->
+        <div class="d-flex align-items-center gap-2">
+            <span class="fw-bold d-none d-md-block text-dark">
+                <%= user ? user.username : 'Invitado' %>
+            </span>
+            <img
+              src="<%= user && user.avatar ? user.avatar : '../../../imgs/Logo.png' %>"
+              alt="<%= user ? user.username : 'User' %>"
+              width="40"
+              height="40"
+              class="rounded-circle border"
+              style="object-fit: cover;"
+            />
+        </div>
+
+        <!-- BOTÓN DE LOGOUT ÚNICO -->
+        <!-- Apunta a la ruta definida en authRoutes.ts -->
+        <a href="/logout" class="btn btn-outline-danger btn-sm fw-bold ms-2 d-flex align-items-center gap-2">
+            <i class="bi bi-box-arrow-right"></i>
+            <span class="d-none d-sm-inline">Salir</span>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</header>

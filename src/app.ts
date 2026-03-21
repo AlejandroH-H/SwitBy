@@ -21,6 +21,7 @@ app.set("view engine", "ejs");
 app.use(favicon(path.join(__dirname, '../views/public/imgs', 'favicon.ico')));
 
 // Middlewares
+app.use('/images', express.static(path.join(__dirname, '../views/public/imgs')));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,15 +38,31 @@ app.use(
 import registerRouter from "./routes/registerRoute";
 import sessionRouter from "./routes/sessionRoute";
 import mainRouter from "./routes/mainRoute";
+import userRouter from "./routes/userRoutes";
+import postRouter from "./routes/postRoutes";
+import commentPost from "./routes/postsFunctions/commentsPost";
+import searchRouter from "./routes/searchRoute";
+import sidebar from "./routes/sidebarRoute";
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.session.user || null;
+    next();
+});
 
 // Rutas
 app.use(registerRouter);
 app.use(sessionRouter);
 app.use(mainRouter);
+app.use(userRouter);
+app.use(postRouter);
+app.use(sidebar);
+app.use('/api', commentPost);
+app.use(searchRouter);
 
 // Rutas principales
 app.get("/", (req: Request, res: Response) => {
-  res.send("Bienvenido");
+  //res.send("Bienvenido");
+  res.render("principal")
 });
 
 // Ruta para la escritura incorrecta de la URL
