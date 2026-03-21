@@ -38,21 +38,20 @@ class RegisterController {
                 try {
                     //Hashear la contraseña y guardar el usuario en la base de datos
                     const passwordHash = yield bcrypt_1.default.hash(password, 10);
-                    yield db.transaction((tx) => __awaiter(this, void 0, void 0, function* () {
-                        // Insertar usuario
-                        const insertUserStmt = yield tx.prepare('INSERT INTO usuarios (email, password) VALUES (?, ?)');
-                        const result = yield insertUserStmt.run(email, passwordHash);
-                        yield insertUserStmt.finalize();
-                        // Obtener el ID del usuario insertado
-                        const userId = result.lastID;
-                        if (!userId) {
-                            throw new Error('Error al generar el ID del usuario');
-                        }
-                        // Insertar perfil
-                        const insertProfileStmt = yield tx.prepare('INSERT INTO perfiles (user_id, username) VALUES (?, ?)');
-                        yield insertProfileStmt.run(userId, name);
-                        yield insertProfileStmt.finalize();
-                    }));
+                    // Insertar usuario
+                    const insertUserStmt = yield db.prepare('INSERT INTO usuarios (email, password) VALUES (?, ?)');
+                    const result = yield insertUserStmt.run(email, passwordHash);
+                    yield insertUserStmt.finalize();
+                    // Obtener el ID del usuario insertado
+                    const userIdStr = result.lastID;
+                    const userId = parseInt(userIdStr || '0', 10);
+                    if (!userId) {
+                        throw new Error('Error al generar el ID del usuario');
+                    }
+                    // Insertar perfil
+                    const insertProfileStmt = yield db.prepare('INSERT INTO perfiles (user_id, username) VALUES (?, ?)');
+                    yield insertProfileStmt.run(userId, name);
+                    yield insertProfileStmt.finalize();
                     return res.status(201).json({
                         message: 'Usuario registrado correctamente :D',
                     });

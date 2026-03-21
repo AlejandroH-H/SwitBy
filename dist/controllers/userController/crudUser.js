@@ -18,6 +18,7 @@ const db_1 = require("../../db");
 class userCrud {
     obtenerDatos(id) {
         return __awaiter(this, void 0, void 0, function* () {
+            const userId = parseInt(id, 10);
             const db = yield (0, db_1.initializeDB)();
             try {
                 const query = `
@@ -30,7 +31,7 @@ class userCrud {
                     INNER JOIN perfiles p ON u.id = p.user_id
                 WHERE u.id = ?
             `;
-                const rows = yield db.get(query, [id]);
+                const rows = yield db.get(query, [userId]);
                 return rows || null;
             }
             catch (error) {
@@ -43,7 +44,8 @@ class userCrud {
     editarPerfil(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { username, first_name, last_name, bio, avatar } = req.body;
-            const id = req.params.id;
+            const idStr = req.params.id;
+            const id = parseInt(idStr, 10);
             const db = yield (0, db_1.initializeDB)();
             try {
                 const stmt = yield db.run(`UPDATE perfiles SET username = ?, first_name = ?, last_name = ?, bio = ?, avatar_url = ? WHERE user_id = ?`, [username, first_name, last_name, bio, avatar, id]);
@@ -81,7 +83,8 @@ class userCrud {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             const password = req.body.password;
-            const id = (_a = req.session.user) === null || _a === void 0 ? void 0 : _a.id;
+            const idStr = String(((_a = req.session.user) === null || _a === void 0 ? void 0 : _a.id) || '0');
+            const id = parseInt(idStr, 10);
             const db = yield (0, db_1.initializeDB)();
             if (!id) {
                 return res.status(400).redirect('/session');

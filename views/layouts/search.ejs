@@ -15,26 +15,30 @@
     <!-- reutilizamos el encabezado global para que haya navegación y usuario -->
     <%- include('../partials/header') %>
 
-    <div class="container py-4">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
+    <div class="container-fluid">
+      <div class="row g-0 min-vh-100"> <!-- justify-content-center -->
+        <%- include('../../partials/sideBarLeft') %>
+
+        <div class="col-12 col-md-6 p-4 bg-light">
           <% if (error) { %>
             <div class="alert alert-danger"><%= error %></div>
           <% } %>
-          <input
-            type="search"
-            name="searchBar"
-            id="searchInput"
-            class="form-control"
-            placeholder="Buscar..."
-            value="<%= query || '' %>"
-          />
+          <div class="max-width-search" style="max-width: 600px;"> <!-- style="max-width: 800px;" -->
+            <input
+              type="search"
+              name="searchBar"
+              id="searchInput"
+              class="form-control"
+              placeholder="Buscar..."
+              value="<%= query || '' %>"
+            />
+          </div>  
 
           <div
             id="searchResults"
-            class="mt-2 border rounded bg-white"
+            class="mt-4 border rounded bg-white shadow-sm"
             <%- query && query.trim() ? 'style="display: block;"' : 'style="display: none;"' %>
-          >
+          > <!-- style="max-width: 800px;" -->
             <% if (searchResults) { %>
               <% const hasUsers = searchResults.users && searchResults.users.length > 0; %>
               <% const hasPosts = searchResults.posts && searchResults.posts.length > 0; %>
@@ -74,8 +78,13 @@
             <% } %>
           </div>
         </div>
+      
+        <%- include('../partials/sideBarRight') %>
+      
       </div>
     </div>
+
+    <%- include('../partials/footer') %>
 
     <script src="/js/search.js"></script>
   </body>

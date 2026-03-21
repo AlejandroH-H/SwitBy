@@ -40,7 +40,8 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             const { title, content, category } = req.body; //Requiriendo los datos desde la vista
-            const userID = (_a = req.session.user) === null || _a === void 0 ? void 0 : _a.id; //Posterior revisión para validar mejor
+            const userIDStr = String(((_a = req.session.user) === null || _a === void 0 ? void 0 : _a.id) || '0');
+            const userID = parseInt(userIDStr, 10);
             //const nowTime = new Date().toLocaleDateString('es-VE') //Uso de la clase Date, para la definición de la fecha de creación del post
             if (!userID) {
                 return res.status(401).redirect('/session');
