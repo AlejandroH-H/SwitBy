@@ -26,7 +26,8 @@ export class UserController {
 
   async postCreatePost (req: Request, res: Response){
     const { title, content, category } = req.body; //Requiriendo los datos desde la vista
-    const userID = req.session.user?.id; //Posterior revisión para validar mejor
+    const userIDStr = String(req.session.user?.id || '0');
+    const userID = parseInt(userIDStr, 10);
 
     //const nowTime = new Date().toLocaleDateString('es-VE') //Uso de la clase Date, para la definición de la fecha de creación del post
 

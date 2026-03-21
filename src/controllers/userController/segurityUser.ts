@@ -6,7 +6,7 @@ export class userSegurity {
 
     // este metodo es para cambiar la contrasena
     async passwordSegurity(req: Request, res: Response) {
-        const userId = req.session.user?.id;
+        const userId = parseInt(String(req.session.user?.id || '0'), 10);
         const { currentPassword, newPassword, confirmPassword } = req.body;
 
         if (!currentPassword || !newPassword || !confirmPassword) {
@@ -64,7 +64,7 @@ export class userSegurity {
 
     // este metodo es para modificar el correo electronico
     async emailSegurity(req: Request, res: Response) {
-        const userId = req.session.user?.id;
+        const userId = parseInt(String(req.session.user?.id || '0'), 10);
         const { currentEmail, newEmail, confirmEmail } = req.body;
 
         const viewPath = 'users/authSegurity/emailSegurity';

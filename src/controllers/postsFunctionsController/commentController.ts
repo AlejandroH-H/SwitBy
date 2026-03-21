@@ -3,7 +3,8 @@ import { initializeDB } from "../../db";
 
 export class CommentController {
     async getComments(req: Request, res: Response) {
-        const postId = req.params.postId;
+        const postIdStr = req.params.postId;
+        const postId = parseInt(postIdStr, 10);
         const db = await initializeDB();
 
         try {
@@ -26,8 +27,10 @@ export class CommentController {
     }
 
     async createComment(req: Request, res: Response) {
-      const userId = req.session.user?.id;
-      const { postId, content } = req.body;
+      const userIdStr = String(req.session.user?.id || '0');
+      const userId = parseInt(userIdStr, 10);
+      const { postId: postIdStr, content } = req.body;
+      const postId = parseInt(postIdStr, 10);
 
       // Lógica para crear los comentarios
 
@@ -58,8 +61,10 @@ export class CommentController {
     }
 
     async deleteComment(req: Request, res: Response) {
-        const userId = req.session.user?.id;
-        const { id } = req.params;
+        const userIdStr = String(req.session.user?.id || '0');
+        const userId = parseInt(userIdStr, 10);
+        const idStr = req.params.id;
+        const id = parseInt(idStr, 10);
 
         if (!userId) return res.status(401).json({ success: false, message: 'No autorizado' });
 

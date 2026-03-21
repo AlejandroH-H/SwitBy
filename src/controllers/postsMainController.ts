@@ -38,7 +38,8 @@ export class postCrud {
     //funcion para editar el contenido de los posts
     async editarPost(req: Request, res: Response) {
     const { title, content, category } = req.body;
-    const id = req.params.id;
+    const idStr = req.params.id;
+    const id = parseInt(idStr, 10);
     const db = await initializeDB();
 
         try {
@@ -65,7 +66,8 @@ export class postCrud {
 
     async eliminarPost(req: Request, res: Response) {
         const db = await initializeDB();
-        const id = req.params.id;
+        const idStr = req.params.id;
+        const id = parseInt(idStr, 10);
         
         try {
             await db.run(`DELETE FROM comentarios WHERE publicacion_id = ?`, [id]);
