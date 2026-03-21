@@ -16,7 +16,7 @@ export class SearchController {
     try {
       const userSearch = await db.all(`
         SELECT user_id, username FROM perfiles WHERE username LIKE ? LIMIT 5
-      `, searchTerms);
+      `, [searchTerms]);
 
       const postSearch = await db.all(`
         SELECT id, title FROM publicaciones WHERE title LIKE ? OR content LIKE ? LIMIT 5
@@ -50,7 +50,7 @@ export class SearchController {
     try {
       const userSearch = await db.all(`
         SELECT user_id, username FROM perfiles WHERE username LIKE ? LIMIT 5
-      `, searchTerms);
+      `, [searchTerms]);
 
       const postSearch = await db.all(`
         SELECT id, title FROM publicaciones WHERE title LIKE ? OR content LIKE ? LIMIT 5

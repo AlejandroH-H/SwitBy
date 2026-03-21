@@ -1,21 +1,118 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-import path from "path";
+import { createClient } from "@libsql/client";
+import dotenv from "dotenv";
 
-const dbPath = path.join(__dirname, "../../Switby.db");
+// Cargamos las variables de entorno
+dotenv.config();
+
+// Mantenemos una única instancia del cliente para no abrir miles de conexiones
+let dbClient: any = null;
 
 export async function initializeDB() {
-  return open({
-    filename: dbPath,
-    driver: sqlite3.Database,
-  });
+  if (!dbClient) {
+    // Si hay URL en el .env, usa Turso en la nube.
+    // Si no, usa un archivo local 'Switby.db' (Ideal para desarrollo sin internet)
+    const url = process.env.TURSO_DATABASE_URL || "file:Switby.db";
+    const authToken = process.env.TURSO_AUTH_TOKEN;
+
+    dbClient = createClient({
+      url: url,
+      authToken: authToken,
+    });
+  }
+
+  // =========================================================
+  // EL ADAPTADOR MÁGICO
+  // =========================================================
+  // Esto hace que el cliente de Turso (@libsql/client) funcione 
+  // exactamente igual que tu antiguo paquete 'sqlite', para que 
+  // NO tengas que modificar ni una línea en tus controladores.
+  return {
+    async get(sql: string, params: any[] = []) {
+      const result = await dbClient.execute({ sql, args: params });
+      return result.rows[0]; // Devuelve el primer resultado o undefined
+    },
+    async all(sql: string, params: any[] = []) {
+      const result = await dbClient.execute({ sql, args: params });
+      return result.rows; // Devuelve un array de objetos
+    },
+    async run(sql: string, params: any[] = []) {
+      const result = await dbClient.execute({ sql, args: params });
+      return { 
+        lastID: result.lastInsertRowid?.toString(), 
+        changes: result.rowsAffected 
+      };
+    },
+    async exec(sql: string) {
+      await dbClient.executeMultiple(sql);
+    },
+    async prepare(sql: string) {
+       // Adaptador simulado para statements si usaste db.prepare() en algún lado
+       return {
+         async run(...params: any[]) {
+           const result = await dbClient.execute({ sql, args: params });
+           return { 
+             lastID: result.lastInsertRowid?.toString(), 
+             changes: result.rowsAffected 
+           };
+         },
+         async all(...params: any[]) {
+            const result = await dbClient.execute({ sql, args: params });
+            return result.rows;
+         },
+         async finalize() { /* no-op */ }
+       }
+    },
+    async transaction(callback: (db: any) => Promise<void>) {
+      return await dbClient.transaction(async (tx: any) => {
+        const txDb = {
+          async get(sql: string, params: any[] = []) {
+            const result = await tx.execute({ sql, args: params });
+            return result.rows[0];
+          },
+          async all(sql: string, params: any[] = []) {
+            const result = await tx.execute({ sql, args: params });
+            return result.rows;
+          },
+          async run(sql: string, params: any[] = []) {
+            const result = await tx.execute({ sql, args: params });
+            return { 
+              lastID: result.lastInsertRowid?.toString(), 
+              changes: result.rowsAffected 
+            };
+          },
+          async exec(sql: string) {
+            await tx.executeMultiple(sql);
+          },
+          async prepare(sql: string) {
+            return {
+              async run(...params: any[]) {
+                const result = await tx.execute({ sql, args: params });
+                return { lastID: result.lastInsertRowid?.toString(), changes: result.rowsAffected };
+              },
+              async all(...params: any[]) {
+                const result = await tx.execute({ sql, args: params });
+                return result.rows;
+              },
+              async finalize() { /* no-op */ }
+            };
+          },
+          async finalize() { /* no-op */ }
+        };
+        await callback(txDb);
+      });
+    },
+    async finalize() {
+      // Las promesas de libSQL no necesitan ser "finalizadas" manualmente, 
+      // dejamos esto vacío para que no tire error en tus controladores.
+    }
+  };
 }
 
 export async function createTables() {
   const db = await initializeDB();
 
+  // 'exec' ejecuta todo el bloque de SQL de golpe
   await db.exec(`
-
 -- 1. Roles (Mejorado: FOREIGN KEY ahora usa ON DELETE RESTRICT para seguridad)
 CREATE TABLE IF NOT EXISTS roles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,7 +131,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
     creationDate DATETIME DEFAULT (datetime('now')),
     is_active INTEGER NOT NULL DEFAULT 1,
     rol_id INTEGER NOT NULL DEFAULT 1,
-    -- Si se intenta borrar un rol que está en uso, la operación fallará
     FOREIGN KEY (rol_id) REFERENCES roles(id) ON DELETE RESTRICT
 );
 
@@ -56,6 +152,12 @@ CREATE TABLE IF NOT EXISTS categorias (
     categoryName TEXT NOT NULL UNIQUE,
     description TEXT
 );
+
+-- Inserta categorías básicas
+INSERT OR IGNORE INTO categorias (id, categoryName, description) VALUES (1, 'General', 'Categoría general para publicaciones variadas');
+INSERT OR IGNORE INTO categorias (id, categoryName, description) VALUES (2, 'Tecnología', 'Publicaciones sobre tecnología e innovación');
+INSERT OR IGNORE INTO categorias (id, categoryName, description) VALUES (3, 'Deportes', 'Contenido relacionado con deportes');
+INSERT OR IGNORE INTO categorias (id, categoryName, description) VALUES (4, 'Entretenimiento', 'Música, cine, juegos y más');
 
 -- 5. Etiquetas
 CREATE TABLE IF NOT EXISTS etiquetas (
@@ -110,10 +212,10 @@ CREATE TABLE IF NOT EXISTS likes (
 CREATE INDEX IF NOT EXISTS idx_publicaciones_title ON publicaciones (title);
 CREATE INDEX IF NOT EXISTS idx_comentarios_date ON comentarios (creationDate);
 CREATE INDEX IF NOT EXISTS idx_publicaciones_category ON publicaciones (category_id);
+  `);
 
-    `);
-
-  console.log("chamo hemos creado la base de  datos uwu");
+  console.log("¡Conexión a Turso/Local establecida y tablas verificadas uwu!");
 }
 
+// Ejecutar al iniciar
 createTables().catch(console.error);

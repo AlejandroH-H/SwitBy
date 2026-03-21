@@ -14,23 +14,159 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeDB = initializeDB;
 exports.createTables = createTables;
-const sqlite3_1 = __importDefault(require("sqlite3"));
-const sqlite_1 = require("sqlite");
-const path_1 = __importDefault(require("path"));
-const dbPath = path_1.default.join(__dirname, "../../Switby.db");
+const client_1 = require("@libsql/client");
+const dotenv_1 = __importDefault(require("dotenv"));
+// Cargamos las variables de entorno
+dotenv_1.default.config();
+// Mantenemos una única instancia del cliente para no abrir miles de conexiones
+let dbClient = null;
 function initializeDB() {
     return __awaiter(this, void 0, void 0, function* () {
-        return (0, sqlite_1.open)({
-            filename: dbPath,
-            driver: sqlite3_1.default.Database,
-        });
+        if (!dbClient) {
+            // Si hay URL en el .env, usa Turso en la nube.
+            // Si no, usa un archivo local 'Switby.db' (Ideal para desarrollo sin internet)
+            const url = process.env.TURSO_DATABASE_URL || "file:Switby.db";
+            const authToken = process.env.TURSO_AUTH_TOKEN;
+            dbClient = (0, client_1.createClient)({
+                url: url,
+                authToken: authToken,
+            });
+        }
+        // =========================================================
+        // EL ADAPTADOR MÁGICO
+        // =========================================================
+        // Esto hace que el cliente de Turso (@libsql/client) funcione 
+        // exactamente igual que tu antiguo paquete 'sqlite', para que 
+        // NO tengas que modificar ni una línea en tus controladores.
+        return {
+            get(sql_1) {
+                return __awaiter(this, arguments, void 0, function* (sql, params = []) {
+                    const result = yield dbClient.execute({ sql, args: params });
+                    return result.rows[0]; // Devuelve el primer resultado o undefined
+                });
+            },
+            all(sql_1) {
+                return __awaiter(this, arguments, void 0, function* (sql, params = []) {
+                    const result = yield dbClient.execute({ sql, args: params });
+                    return result.rows; // Devuelve un array de objetos
+                });
+            },
+            run(sql_1) {
+                return __awaiter(this, arguments, void 0, function* (sql, params = []) {
+                    var _a;
+                    const result = yield dbClient.execute({ sql, args: params });
+                    return {
+                        lastID: (_a = result.lastInsertRowid) === null || _a === void 0 ? void 0 : _a.toString(),
+                        changes: result.rowsAffected
+                    };
+                });
+            },
+            exec(sql) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    yield dbClient.executeMultiple(sql);
+                });
+            },
+            prepare(sql) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    // Adaptador simulado para statements si usaste db.prepare() en algún lado
+                    return {
+                        run(...params) {
+                            return __awaiter(this, void 0, void 0, function* () {
+                                var _a;
+                                const result = yield dbClient.execute({ sql, args: params });
+                                return {
+                                    lastID: (_a = result.lastInsertRowid) === null || _a === void 0 ? void 0 : _a.toString(),
+                                    changes: result.rowsAffected
+                                };
+                            });
+                        },
+                        all(...params) {
+                            return __awaiter(this, void 0, void 0, function* () {
+                                const result = yield dbClient.execute({ sql, args: params });
+                                return result.rows;
+                            });
+                        },
+                        finalize() {
+                            return __awaiter(this, void 0, void 0, function* () { });
+                        }
+                    };
+                });
+            },
+            transaction(callback) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return yield dbClient.transaction((tx) => __awaiter(this, void 0, void 0, function* () {
+                        const txDb = {
+                            get(sql_1) {
+                                return __awaiter(this, arguments, void 0, function* (sql, params = []) {
+                                    const result = yield tx.execute({ sql, args: params });
+                                    return result.rows[0];
+                                });
+                            },
+                            all(sql_1) {
+                                return __awaiter(this, arguments, void 0, function* (sql, params = []) {
+                                    const result = yield tx.execute({ sql, args: params });
+                                    return result.rows;
+                                });
+                            },
+                            run(sql_1) {
+                                return __awaiter(this, arguments, void 0, function* (sql, params = []) {
+                                    var _a;
+                                    const result = yield tx.execute({ sql, args: params });
+                                    return {
+                                        lastID: (_a = result.lastInsertRowid) === null || _a === void 0 ? void 0 : _a.toString(),
+                                        changes: result.rowsAffected
+                                    };
+                                });
+                            },
+                            exec(sql) {
+                                return __awaiter(this, void 0, void 0, function* () {
+                                    yield tx.executeMultiple(sql);
+                                });
+                            },
+                            prepare(sql) {
+                                return __awaiter(this, void 0, void 0, function* () {
+                                    return {
+                                        run(...params) {
+                                            return __awaiter(this, void 0, void 0, function* () {
+                                                var _a;
+                                                const result = yield tx.execute({ sql, args: params });
+                                                return { lastID: (_a = result.lastInsertRowid) === null || _a === void 0 ? void 0 : _a.toString(), changes: result.rowsAffected };
+                                            });
+                                        },
+                                        all(...params) {
+                                            return __awaiter(this, void 0, void 0, function* () {
+                                                const result = yield tx.execute({ sql, args: params });
+                                                return result.rows;
+                                            });
+                                        },
+                                        finalize() {
+                                            return __awaiter(this, void 0, void 0, function* () { });
+                                        }
+                                    };
+                                });
+                            },
+                            finalize() {
+                                return __awaiter(this, void 0, void 0, function* () { });
+                            }
+                        };
+                        yield callback(txDb);
+                    }));
+                });
+            },
+            finalize() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    // Las promesas de libSQL no necesitan ser "finalizadas" manualmente, 
+                    // dejamos esto vacío para que no tire error en tus controladores.
+                });
+            }
+        };
     });
 }
 function createTables() {
     return __awaiter(this, void 0, void 0, function* () {
         const db = yield initializeDB();
+        // 'exec' ejecuta todo el bloque de SQL de golpe
         yield db.exec(`
-
 -- 1. Roles (Mejorado: FOREIGN KEY ahora usa ON DELETE RESTRICT para seguridad)
 CREATE TABLE IF NOT EXISTS roles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +185,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
     creationDate DATETIME DEFAULT (datetime('now')),
     is_active INTEGER NOT NULL DEFAULT 1,
     rol_id INTEGER NOT NULL DEFAULT 1,
-    -- Si se intenta borrar un rol que está en uso, la operación fallará
     FOREIGN KEY (rol_id) REFERENCES roles(id) ON DELETE RESTRICT
 );
 
@@ -71,6 +206,12 @@ CREATE TABLE IF NOT EXISTS categorias (
     categoryName TEXT NOT NULL UNIQUE,
     description TEXT
 );
+
+-- Inserta categorías básicas
+INSERT OR IGNORE INTO categorias (id, categoryName, description) VALUES (1, 'General', 'Categoría general para publicaciones variadas');
+INSERT OR IGNORE INTO categorias (id, categoryName, description) VALUES (2, 'Tecnología', 'Publicaciones sobre tecnología e innovación');
+INSERT OR IGNORE INTO categorias (id, categoryName, description) VALUES (3, 'Deportes', 'Contenido relacionado con deportes');
+INSERT OR IGNORE INTO categorias (id, categoryName, description) VALUES (4, 'Entretenimiento', 'Música, cine, juegos y más');
 
 -- 5. Etiquetas
 CREATE TABLE IF NOT EXISTS etiquetas (
@@ -125,9 +266,9 @@ CREATE TABLE IF NOT EXISTS likes (
 CREATE INDEX IF NOT EXISTS idx_publicaciones_title ON publicaciones (title);
 CREATE INDEX IF NOT EXISTS idx_comentarios_date ON comentarios (creationDate);
 CREATE INDEX IF NOT EXISTS idx_publicaciones_category ON publicaciones (category_id);
-
-    `);
-        console.log("chamo hemos creado la base de  datos uwu");
+  `);
+        console.log("¡Conexión a Turso/Local establecida y tablas verificadas uwu!");
     });
 }
+// Ejecutar al iniciar
 createTables().catch(console.error);

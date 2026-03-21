@@ -41,8 +41,13 @@ export class UserController {
     const db = await initializeDB();
 
     try {
+      const categoryId = parseInt(category, 10);
+      if (isNaN(categoryId)) {
+        return res.status(400).send("Categoría inválida");
+      }
+
       const stmt = await db.prepare(`INSERT INTO publicaciones (title, content, user_id, category_id) VALUES (?, ?, ?, ?)`);
-      await stmt.run(title, content, userID, category);
+      await stmt.run(title, content, userID, categoryId);
       await stmt.finalize();
 
       res.status(201).redirect('/main');

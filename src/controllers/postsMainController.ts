@@ -42,9 +42,14 @@ export class postCrud {
     const db = await initializeDB();
 
         try {
+            const categoryId = parseInt(category, 10);
+            if (isNaN(categoryId)) {
+                return res.status(400).send("Categoría inválida");
+            }
+
             const stmt = await db.run(
                 `UPDATE publicaciones SET title = ?, content = ?, category_id = ? WHERE id = ?`,
-                [title, content, category, id]
+                [title, content, categoryId, id]
             );
 
             if (stmt.changes && stmt.changes > 0) {

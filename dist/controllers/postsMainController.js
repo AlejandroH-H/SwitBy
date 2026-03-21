@@ -51,7 +51,11 @@ class postCrud {
             const id = req.params.id;
             const db = yield (0, db_1.initializeDB)();
             try {
-                const stmt = yield db.run(`UPDATE publicaciones SET title = ?, content = ?, category_id = ? WHERE id = ?`, [title, content, category, id]);
+                const categoryId = parseInt(category, 10);
+                if (isNaN(categoryId)) {
+                    return res.status(400).send("Categoría inválida");
+                }
+                const stmt = yield db.run(`UPDATE publicaciones SET title = ?, content = ?, category_id = ? WHERE id = ?`, [title, content, categoryId, id]);
                 if (stmt.changes && stmt.changes > 0) {
                     res.redirect(`/main`);
                 }

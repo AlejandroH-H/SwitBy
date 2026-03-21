@@ -50,8 +50,12 @@ class UserController {
             }
             const db = yield (0, db_1.initializeDB)();
             try {
+                const categoryId = parseInt(category, 10);
+                if (isNaN(categoryId)) {
+                    return res.status(400).send("Categoría inválida");
+                }
                 const stmt = yield db.prepare(`INSERT INTO publicaciones (title, content, user_id, category_id) VALUES (?, ?, ?, ?)`);
-                yield stmt.run(title, content, userID, category);
+                yield stmt.run(title, content, userID, categoryId);
                 yield stmt.finalize();
                 res.status(201).redirect('/main');
             }
