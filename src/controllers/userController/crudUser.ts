@@ -5,6 +5,7 @@ import { initializeDB } from "../../db";
 export class userCrud {
 
     async obtenerDatos(id: string) {
+        const userId = parseInt(id, 10);
         const db = await initializeDB();
 
         try {
@@ -18,7 +19,7 @@ export class userCrud {
                     INNER JOIN perfiles p ON u.id = p.user_id
                 WHERE u.id = ?
             `;
-            const rows: any = await db.get(query, [id]);
+            const rows: any = await db.get(query, [userId]);
             return rows || null;
 
         } catch (error) {
@@ -30,7 +31,8 @@ export class userCrud {
     // este metodo es para cambiar datos basicos del perfil
     async editarPerfil(req: Request, res: Response) {
         const { username, first_name, last_name, bio, avatar } = req.body
-        const id = req.params.id;
+        const idStr = req.params.id;
+        const id = parseInt(idStr, 10);
         const db = await initializeDB();
 
         try {
@@ -76,7 +78,8 @@ export class userCrud {
     // este metodo es para borrar el perfil definitivamente
     async eliminarPerfil(req: Request, res: Response) {
         const password = req.body.password
-        const id = req.session.user?.id;
+        const idStr = String(req.session.user?.id || '0');
+        const id = parseInt(idStr, 10);
         const db = await initializeDB();
 
         if(!id){

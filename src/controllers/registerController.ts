@@ -38,28 +38,27 @@ export class RegisterController{
       //Hashear la contraseña y guardar el usuario en la base de datos
       const passwordHash = await bcrypt.hash(password, 10);
 
-      await db.transaction(async (tx) => {
-        // Insertar usuario
-        const insertUserStmt = await tx.prepare(
-          'INSERT INTO usuarios (email, password) VALUES (?, ?)'
-        );
-        const result = await insertUserStmt.run(email, passwordHash);
-        await insertUserStmt.finalize();
+      // Insertar usuario
+      const insertUserStmt = await db.prepare(
+        'INSERT INTO usuarios (email, password) VALUES (?, ?)'
+      );
+      const result = await insertUserStmt.run(email, passwordHash);
+      await insertUserStmt.finalize();
 
-        // Obtener el ID del usuario insertado
-        const userId = result.lastID;
+      // Obtener el ID del usuario insertado
+      const userIdStr = result.lastID;
+      const userId = parseInt(userIdStr || '0', 10);
 
-        if (!userId) {
-          throw new Error('Error al generar el ID del usuario');
-        }
+      if (!userId) {
+        throw new Error('Error al generar el ID del usuario');
+      }
 
-        // Insertar perfil
-        const insertProfileStmt = await tx.prepare(
-          'INSERT INTO perfiles (user_id, username) VALUES (?, ?)'
-        );
-        await insertProfileStmt.run(userId, name);
-        await insertProfileStmt.finalize();
-      });
+      // Insertar perfil
+      const insertProfileStmt = await db.prepare(
+        'INSERT INTO perfiles (user_id, username) VALUES (?, ?)'
+      );
+      await insertProfileStmt.run(userId, name);
+      await insertProfileStmt.finalize();
 
       return res.status(201).json({ 
         message: 'Usuario registrado correctamente :D', 

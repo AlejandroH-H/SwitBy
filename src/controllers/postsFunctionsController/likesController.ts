@@ -3,8 +3,10 @@ import { initializeDB } from "../../db";
 
 export class LikesController{
     async likePost(req: Request, res: Response) {
-        const userId = req.session.user?.id;
-        const { postId } = req.body;
+        const userIdStr = String(req.session.user?.id || '0');
+        const userId = parseInt(userIdStr, 10);
+        const { postId: postIdStr } = req.body;
+        const postId = parseInt(postIdStr, 10);
 
         if (!userId) return res.status(401).json({ success: false, message: 'No autorizado' });
 
