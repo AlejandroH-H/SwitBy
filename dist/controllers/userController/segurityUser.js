@@ -20,7 +20,7 @@ class userSegurity {
     passwordSegurity(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
-            const userId = (_a = req.session.user) === null || _a === void 0 ? void 0 : _a.id;
+            const userId = parseInt(String(((_a = req.session.user) === null || _a === void 0 ? void 0 : _a.id) || '0'), 10);
             const { currentPassword, newPassword, confirmPassword } = req.body;
             if (!currentPassword || !newPassword || !confirmPassword) {
                 return res.render('users/authSegurity/passwordSegurity', { error: 'Todos los campos son obligatorios.', user: req.session.user });
@@ -71,7 +71,7 @@ class userSegurity {
     emailSegurity(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
-            const userId = (_a = req.session.user) === null || _a === void 0 ? void 0 : _a.id;
+            const userId = parseInt(String(((_a = req.session.user) === null || _a === void 0 ? void 0 : _a.id) || '0'), 10);
             const { currentEmail, newEmail, confirmEmail } = req.body;
             const viewPath = 'users/authSegurity/emailSegurity';
             // 1. Validaciones básicas

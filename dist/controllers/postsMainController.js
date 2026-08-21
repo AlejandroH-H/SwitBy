@@ -48,7 +48,8 @@ class postCrud {
     editarPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { title, content, category } = req.body;
-            const id = req.params.id;
+            const idStr = req.params.id;
+            const id = parseInt(idStr, 10);
             const db = yield (0, db_1.initializeDB)();
             try {
                 const categoryId = parseInt(category, 10);
@@ -72,7 +73,8 @@ class postCrud {
     eliminarPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const db = yield (0, db_1.initializeDB)();
-            const id = req.params.id;
+            const idStr = req.params.id;
+            const id = parseInt(idStr, 10);
             try {
                 yield db.run(`DELETE FROM comentarios WHERE publicacion_id = ?`, [id]);
                 const query = `DELETE FROM publicaciones WHERE id = ?`;

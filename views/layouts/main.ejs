@@ -53,26 +53,7 @@
 
     <div id="tuperfil" class="container-fluid">
       <div class="row min-vh-100">
-        <!-- Sidebar Izquierdo -->
-        <section
-          id="perfil-opc"
-          class="col-md-3 d-none d-md-block border-end p-0 bg-white"
-        >
-          <div class="list-group list-group-flush pt-3">
-            <a href="/friends" class="list-group-item list-group-item-action fw-bold">
-              <i class="bi bi-people"></i> Amigos</a
-            >
-            <a href="/categories" class="list-group-item list-group-item-action fw-bold">
-              <i class="bi bi-tags"></i> Categorías</a
-            >
-            <a href="/topics" class="list-group-item list-group-item-action fw-bold">
-              <i class="bi bi-tags"></i> Temas</a
-            >
-            <a href="/messages" class="list-group-item list-group-item-action fw-bold">
-              <i class="bi bi-chat-left-text"></i> Mensajes</a
-            >
-          </div>
-        </section>
+        <%- include('../partials/sideBarLeft') %>
 
         <!-- Feed Principal -->
         <section id="perfil-feed" class="col-12 col-md-9 p-4 bg-light">
